@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
     operations:[
     new Get(),
     new GetCollection(),
-    new GetCollection(uriTemplate:"books-short-description"),
+    new GetCollection(uriTemplate:"books-titles"),
     new Post()
      ]
      )]
