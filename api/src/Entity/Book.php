@@ -7,28 +7,34 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity()]
 #[ApiResource(
     operations:[
     new Get(),
     new GetCollection(),
-    new GetCollection(uriTemplate:"books-titles"),
+    new GetCollection(uriTemplate:"books-titles", normalizationContext: ["groups" => [self::READ_BOOKS_TITLES]]),
     new Post()
      ]
      )]
 class Book
 {
+
+    public final const READ_BOOKS_TITLES = "READ_BOOKS_TITLE"; 
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(self::READ_BOOKS_TITLES)]
     private ?string $frenchTitle = null;
 
 
     #[ORM\Column(length: 255)]
+    #[Groups(self::READ_BOOKS_TITLES)]
     private ?string $originalTitle = null;
 
     #[ORM\Column(nullable: true)]
