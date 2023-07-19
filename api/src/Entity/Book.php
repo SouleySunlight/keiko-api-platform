@@ -13,35 +13,38 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     operations:[
     new Get(),
-    new GetCollection(),
+    new GetCollection(normalizationContext: ["groups" => [self::READ_BOOKS]]),
     new GetCollection(uriTemplate:"books-titles", normalizationContext: ["groups" => [self::READ_BOOKS_TITLES]]),
     new Post()
      ]
      )]
 class Book
 {
-
-    public final const READ_BOOKS_TITLES = "READ_BOOKS_TITLE"; 
+    public final const READ_BOOKS = "READ_BOOKS";
+    public final const READ_BOOKS_TITLES = "READ_BOOKS_TITLE";
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([self::READ_BOOKS])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(self::READ_BOOKS_TITLES)]
+    #[Groups([self::READ_BOOKS_TITLES, self::READ_BOOKS])]
     private ?string $frenchTitle = null;
 
 
     #[ORM\Column(length: 255)]
-    #[Groups(self::READ_BOOKS_TITLES)]
+    #[Groups([self::READ_BOOKS_TITLES, self::READ_BOOKS])]
     private ?string $originalTitle = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups([self::READ_BOOKS])]
     private ?int $pageCount = null;
 
     #[ORM\ManyToOne(targetEntity: Author::class)]
     #[ORM\JoinTable(false)]
+    #[Groups([self::READ_BOOKS])]
     private ?Author $author = null;
 
     public function getId(): ?int

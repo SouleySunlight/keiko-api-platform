@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity()]
 #[ApiResource(
@@ -24,9 +25,11 @@ class Author
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([Book::READ_BOOKS])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([Book::READ_BOOKS])]
     private ?string $lastName = null;
 
     public function getId(): ?int
