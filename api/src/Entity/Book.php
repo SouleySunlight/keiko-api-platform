@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     new Get(),
     new GetCollection(normalizationContext: ["groups" => [self::READ_BOOKS]]),
     new GetCollection(uriTemplate:"books-titles", normalizationContext: ["groups" => [self::READ_BOOKS_TITLES]]),
-    new Post(uriTemplate:'create-book-with-author', denormalizationContext: ["groups" => [self::CREATE_BOOKS_WITH_AUTHOR]]),
+    new Post(uriTemplate:'create-book-with-author', denormalizationContext: ["groups" => [self::CREATE_BOOKS_WITH_AUTHOR]], normalizationContext: ["groups" => [self::READ_BOOKS]]),
     new Post()
      ]
      )]
@@ -44,7 +44,7 @@ class Book
     #[Groups([self::READ_BOOKS, self::CREATE_BOOKS_WITH_AUTHOR])]
     private ?int $pageCount = null;
 
-    #[ORM\ManyToOne(targetEntity: Author::class, cascade:['persist'])]
+    #[ORM\ManyToOne(targetEntity: Author::class, cascade: ['persist'])]
     #[ORM\JoinTable(false)]
     #[Groups([self::READ_BOOKS, self::CREATE_BOOKS_WITH_AUTHOR])]
     private ?Author $author = null;
