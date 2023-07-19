@@ -15,6 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     new Get(),
     new GetCollection(normalizationContext: ["groups" => [self::READ_BOOKS]]),
     new GetCollection(uriTemplate:"books-titles", normalizationContext: ["groups" => [self::READ_BOOKS_TITLES]]),
+    new Post(uriTemplate:'create-book-with-author', denormalizationContext: ["groups" => [self::CREATE_BOOKS_WITH_AUTHOR]]),
     new Post()
      ]
      )]
@@ -22,6 +23,7 @@ class Book
 {
     public final const READ_BOOKS = "READ_BOOKS";
     public final const READ_BOOKS_TITLES = "READ_BOOKS_TITLE";
+    public final const CREATE_BOOKS_WITH_AUTHOR = "CREATE_BOOKS_WITH_AUTHOR";
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -30,21 +32,21 @@ class Book
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::READ_BOOKS_TITLES, self::READ_BOOKS])]
+    #[Groups([self::READ_BOOKS_TITLES, self::READ_BOOKS, self::CREATE_BOOKS_WITH_AUTHOR])]
     private ?string $frenchTitle = null;
 
 
     #[ORM\Column(length: 255)]
-    #[Groups([self::READ_BOOKS_TITLES, self::READ_BOOKS])]
+    #[Groups([self::READ_BOOKS_TITLES, self::READ_BOOKS, self::CREATE_BOOKS_WITH_AUTHOR])]
     private ?string $originalTitle = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups([self::READ_BOOKS])]
+    #[Groups([self::READ_BOOKS, self::CREATE_BOOKS_WITH_AUTHOR])]
     private ?int $pageCount = null;
 
-    #[ORM\ManyToOne(targetEntity: Author::class)]
+    #[ORM\ManyToOne(targetEntity: Author::class, cascade:['persist'])]
     #[ORM\JoinTable(false)]
-    #[Groups([self::READ_BOOKS])]
+    #[Groups([self::READ_BOOKS, self::CREATE_BOOKS_WITH_AUTHOR])]
     private ?Author $author = null;
 
     public function getId(): ?int

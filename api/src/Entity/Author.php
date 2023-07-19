@@ -25,11 +25,11 @@ class Author
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([Book::READ_BOOKS])]
+    #[Groups([Book::READ_BOOKS, Book::CREATE_BOOKS_WITH_AUTHOR])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([Book::READ_BOOKS])]
+    #[Groups([Book::READ_BOOKS, Book::CREATE_BOOKS_WITH_AUTHOR])]
     private ?string $lastName = null;
 
     public function getId(): ?int
