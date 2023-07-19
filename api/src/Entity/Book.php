@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
+use App\State\ReadingTimeStateProvider;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -13,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     operations:[
     new Get(),
-    new GetCollection(normalizationContext: ["groups" => [self::READ_BOOKS]]),
+    new GetCollection(normalizationContext: ["groups" => [self::READ_BOOKS]], provider:ReadingTimeStateProvider::class),
     new GetCollection(uriTemplate:"books-titles", normalizationContext: ["groups" => [self::READ_BOOKS_TITLES]]),
     new Post(uriTemplate:'create-book-with-author', denormalizationContext: ["groups" => [self::CREATE_BOOKS_WITH_AUTHOR]], normalizationContext: ["groups" => [self::READ_BOOKS]]),
     new Post()
@@ -48,6 +49,9 @@ class Book
     #[ORM\JoinTable(false)]
     #[Groups([self::READ_BOOKS, self::CREATE_BOOKS_WITH_AUTHOR])]
     private ?Author $author = null;
+
+    #[Groups([self::READ_BOOKS])]
+    private ?int $readingTime = null;
 
     public function getId(): ?int
     {
@@ -98,6 +102,18 @@ class Book
     public function setAuthor($author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getReadingTime(): ?int
+    {
+        return $this->readingTime;
+    }
+
+    public function setReadingTime(?int $readingTime): self
+    {
+        $this->readingTime = $readingTime;
 
         return $this;
     }
