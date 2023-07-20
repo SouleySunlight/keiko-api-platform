@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
@@ -25,6 +26,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
      ]
      )]
 #[ApiFilter(SearchFilter::class,  properties: ['originalTitle' => 'exact', 'author.lastName' => 'exact'])]
+#[ApiFilter(OrderFilter::class, properties:['originalTitle'], arguments: ['orderParameterName' => 'order'])]
 class Book
 {
     public final const READ_BOOKS = "READ_BOOKS";
