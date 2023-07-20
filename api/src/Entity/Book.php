@@ -24,7 +24,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     new Post()
      ]
      )]
-#[ApiFilter(SearchFilter::class,  properties: ['originalTitle' => 'exact'])]
+#[ApiFilter(SearchFilter::class,  properties: ['originalTitle' => 'exact', 'author.lastName' => 'exact'])]
 class Book
 {
     public final const READ_BOOKS = "READ_BOOKS";
