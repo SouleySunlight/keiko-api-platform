@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -22,6 +24,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     new Post()
      ]
      )]
+#[ApiFilter(SearchFilter::class,  properties: ['originalTitle' => 'exact'])]
 class Book
 {
     public final const READ_BOOKS = "READ_BOOKS";
