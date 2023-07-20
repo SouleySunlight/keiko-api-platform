@@ -24,5 +24,9 @@ services:
     bind:
       $providerInterface: "@api_platform.doctrine.orm.state.collection_provider"
 
+  App\State\AdditionDateStateProcessor:
+    bind:
+      $processorInterface: "@api_platform.doctrine.orm.state.persist_processor"
+
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
