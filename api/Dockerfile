@@ -13,25 +13,25 @@ COPY --from=mlocati/php-extension-installer --link /usr/bin/install-php-extensio
 
 # persistent / runtime deps
 RUN apk add --no-cache \
-		acl \
-		fcgi \
-		file \
-		gettext \
-		git \
+	acl \
+	fcgi \
+	file \
+	gettext \
+	git \
 	;
 
 RUN set -eux; \
-    install-php-extensions \
-    	intl \
-    	zip \
-    	apcu \
-		opcache \
-    ;
+	install-php-extensions \
+	intl \
+	zip \
+	apcu \
+	opcache \
+	;
 
 ###> recipes ###
 ###> doctrine/doctrine-bundle ###
 RUN set -eux; \
-    install-php-extensions pdo_pgsql
+	install-php-extensions pdo_pgsql
 ###< doctrine/doctrine-bundle ###
 ###< recipes ###
 
@@ -94,14 +94,14 @@ RUN set -eux; \
 RUN rm -f .env.local.php
 
 # Build Caddy with the Mercure and Vulcain modules
-FROM caddy:2.7-builder-alpine AS app_caddy_builder
+FROM caddy:2.8.4-builder-alpine AS app_caddy_builder
 
 RUN xcaddy build \
 	--with github.com/dunglas/mercure/caddy \
 	--with github.com/dunglas/vulcain/caddy
 
 # Caddy image
-FROM caddy:2.7-alpine AS app_caddy
+FROM caddy:2.8.4-alpine AS app_caddy
 
 WORKDIR /srv/app
 
